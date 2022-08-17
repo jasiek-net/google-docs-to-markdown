@@ -1,0 +1,15 @@
+{
+  "name": "google-docs-to-markdown",
+  "version": "1.0.0",
+  "description": "Save Google Docs in Markdown format",
+  "main": "index.js",
+  "repository": "git@github.com:jasiek-net/google-docs-to-markdown.git",
+  "author": "Jan Horubała <jan.horubala@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
+    "gatsby-source-google-docs": "^2.2.3"
+  }
+}
