@@ -5,6 +5,7 @@ This is a simple wrapper around [gatsby-source-google-docs](https://github.com/c
 ```
 yarn install
 cp ./gatsby-source-filesystem.js ./node_modules/gatsby-source-filesystem/index.js
+cp ./gatsby-source-google-docs.js node_modules/gatsby-source-google-docs/utils/google-drive.js 
 ts-node index.ts
 ```
 
