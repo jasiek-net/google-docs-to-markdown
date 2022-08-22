@@ -25,7 +25,7 @@ export function createNode({ internal, dir, ...node }) {
     const url = node.markdown.match(coverImageRegex)[1];
     node.markdown = node.markdown.replace(url, node.cover.image);
   }
-  writeFileSyncRecursive(`${dir}/public${node.path}.md`, node.markdown, "utf-8")
+  writeFileSyncRecursive(`${process.env.MARKDOWN_PATH}${node.path}.md`, node.markdown, "utf-8")
 }
 
 // https://gist.github.com/drodsou/de2ba6291aea67ffc5bc4b52d8c32abd

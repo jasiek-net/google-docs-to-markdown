@@ -7,7 +7,7 @@ import {
   store,
   cache,
   createNodeId,
-} from './gatsby'
+} from './gatsby-wrapper'
 
 (async () => {
   await sourceNodes({
@@ -19,7 +19,7 @@ import {
       createNodeId,
     },
     {
-      folder: '1YJWX_FRoVusp-51ztedm6HSZqpbJA3ag',
+      folder: process.env.GOOGLE_DOCS_FOLDER,
       debug: true,
     }
   );

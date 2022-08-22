@@ -12,7 +12,7 @@ exports.createRemoteFileNode = async function createRemoteFileNode({
   reporter,
 }) {
   const path = `/img/${name}.jpg`;
-  const absolutePath = `${__dirname}/../../public${path}`;
+  const absolutePath = `${process.env.IMAGES_PATH}${path}`;
   // https://stackoverflow.com/a/51624229/6041704
   return axios({ url, responseType: 'stream' }).then(res =>
     new Promise((resolve, reject) => {
