@@ -11,6 +11,16 @@ const {wait} = require("./wait")
 const MIME_TYPE_DOCUMENT = "application/vnd.google-apps.document"
 const MIME_TYPE_FOLDER = "application/vnd.google-apps.folder"
 
+// @jasiek getDateAndTitle function
+const getDateAndTitle = (name) => {
+  const NAME_REGEX = /(?<date>\d\d\d\d-\d\d-\d\d).(?<title>.+)/m
+  if (!NAME_REGEX.test(name)) {
+    return ['', name]
+  }
+  const { groups: { date, title } } = NAME_REGEX.exec(name)
+  return [date, title];
+}
+
 /**
  * @template T
  * @param {T[]} arr
@@ -51,14 +61,15 @@ const getTreeMetadata = (tree, file) => {
   let path = ""
 
   tree.forEach((item) => {
-    const nameSlugified = _kebabCase(item.name)
+    const [_, name] = getDateAndTitle(item.name)
+    const nameSlugified = _kebabCase(name)
 
     path += `/${nameSlugified}`
 
     if (item.skip !== true) {
       slug += `/${nameSlugified}`
       breadcrumb.push({
-        name: item.name,
+        name,
         slug,
       })
     }
@@ -74,7 +85,7 @@ const getTreeMetadata = (tree, file) => {
     const nameSlugified = _kebabCase(name)
 
     path += `/${nameSlugified}`
-    slug += `/${nameSlugified}`
+    slug += `/${getDateAndTitle(nameSlugified)[1]}`
   }
 
   // Metadata slug from "description"
@@ -121,12 +132,11 @@ const updateFile = ({file, folder}) => {
   // Breadcrumb, slug, path
   Object.assign(file, getTreeMetadata(folder.tree, file))
 
-  // Add title and maybe overwrite date
-  let nameRegex = /(?<date>\d\d\d\d-\d\d-\d\d) (?<title>.+)/m
-  if (!nameRegex.test(file.name)) {
+  // @jasiek add title and maybe overwrite date
+  const [date, title] = getDateAndTitle(file.name);
+  if (!date) {
     Object.assign(file, { title: file.name })
   } else {
-    const { groups: { date, title } } = nameRegex.exec(file.name)
     Object.assign(file, {
       date,
       title,
