@@ -9,7 +9,7 @@ cp ./gatsby-source-google-docs.js node_modules/gatsby-source-google-docs/utils/g
 ts-node index.ts
 ```
 
-#### Structure of the env file
+#### Structure of the .env file
 ```
 GOOGLE_OAUTH_CLIENT_ID=
 GOOGLE_OAUTH_CLIENT_SECRET=
@@ -22,6 +22,21 @@ To generate google oauth variables, you can use script from `gatsby-source-googl
 ```
 npx gatsby-source-google-docs-token
 ```
-#### Changes in legacy (gatsby-source-google-docs)
+## Changes in legacy (gatsby-source-google-docs)
 
-I use jekyll convention of naming files for my Google Drive documents (date as prefix, and then title), i.e. `2022-08-22 Hello world!`. So I rewrote `gatsby-source-google-docs` logic to split filename into `date` and `title` and put them in frontmatter. If you use other convention my script will keep `date` as date of creation and add `title` the same as filename.
+I use jekyll naming convention in Google Docs (i.e. `2022-08-22 Hello world!`), so I added few changes to frontmatter.
+
+##### Fields without date prefix
+
+- `slug: /post/hello-world`
+- `title: Hello world!`
+- `breadcrumbs[].slug: /post/hello-world` 
+- `breadcrumbs[].name: Hello world!`
+
+##### Fields where I kept date prefix
+
+- `name: 2022-08-22 Hello world!`
+- `path: /post/2022-08-22-hello-world`
+- filename: `./post/2022-08-22-hello-world.md`
+
+Without jekyll convention script will be still working!
