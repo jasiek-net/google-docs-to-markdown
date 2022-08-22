@@ -8,7 +8,7 @@ cp ./gatsby-source-filesystem.js ./node_modules/gatsby-source-filesystem/index.j
 ts-node index.ts
 ```
 
-### Structure of env file
+#### Structure of the env file
 ```
 GOOGLE_OAUTH_CLIENT_ID=
 GOOGLE_OAUTH_CLIENT_SECRET=
@@ -17,7 +17,7 @@ GOOGLE_DOCS_FOLDER=
 MARKDOWN_PATH=
 IMAGES_PATH=
 ```
-To generate GOOGLE_* variable, you can use script from `gatsby-source-google-docs`:
+To generate google oauth variables, you can use script from `gatsby-source-google-docs`:
 ```
 npx gatsby-source-google-docs-token
 ```
