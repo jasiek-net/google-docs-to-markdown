@@ -23,21 +23,44 @@ To generate google oauth variables, you can use script from `gatsby-source-googl
 ```
 npx gatsby-source-google-docs-token
 ```
-## Changes in legacy (gatsby-source-google-docs)
+## Features
+- save markdown locally (`MARKDOWN_PATH`)
+- save images locally (`IMAGES_PATH`)
+- first image as cover
+- frontmatter in Google Docs
+- jekyll filename convention
 
-I use jekyll naming convention in Google Docs (i.e. `2022-08-22 Hello world!`), so I added few changes to frontmatter.
+### Cover image
+If you put image as a first element in Google Docs, it will be moved to frontmatter.
+```
+cover:
+  image: /path/to/image.png
+  alt: 'Alt text'
+  title: 'Title text'
+```
 
-##### Fields without date prefix
+### Frontmatter in Docs
+Just put frontmatter in your Google Docs, this script will remove it from markdown body and put in the header!
+```
+tags: [Hello, World]
+description: 'Some important description'
+```
 
-- `slug: /post/hello-world`
-- `title: Hello world!`
-- `breadcrumbs[].slug: /post/hello-world` 
-- `breadcrumbs[].name: Hello world!`
+### Filename convention
+If you use jekyll naming convention in Google Drive (`2022-08-22 Hello world!`), it will be treated in jekyll way:
 
-##### Fields where I kept date prefix
+Fields were date will be removed:
+```
+slug: /post/hello-world
+title: Hello world!
+breadcrumbs: 
+    - { name: post, slug: /post }
+    - { name: 'Hello world!', slug: /post/hello-world }
+```
 
-- `name: 2022-08-22 Hello world!`
-- `path: /post/2022-08-22-hello-world`
-- filename: `./post/2022-08-22-hello-world.md`
-
-Without jekyll convention script will be still working!
+Fields where date will be kept:
+```
+name: 2022-08-22 Hello world!
+path: /post/2022-08-22-hello-world
+filename: `./post/2022-08-22-hello-world.md
+```
