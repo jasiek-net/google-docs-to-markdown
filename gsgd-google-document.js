@@ -591,7 +591,7 @@ class GoogleDocument {
   extractCoverImage(markdownContent) {
     if (this.COVER_IMAGE_REGEX.test(markdownContent)) {
       const { groups: { alt, image, title } } = this.COVER_IMAGE_REGEX.exec(markdownContent);
-      return { alt, image, title };
+      return { image, alt, title };
     }
     return null;
   }
