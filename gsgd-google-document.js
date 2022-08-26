@@ -562,6 +562,8 @@ class GoogleDocument {
     }
 
     this.processInternalLinks()
+
+    this.processCustomCover()
   }
 
   normalizeElement(element) {
@@ -578,7 +580,13 @@ class GoogleDocument {
 
   // @jasiek start
   COVER_IMAGE_REGEX = /^!\[(?<alt>.*)\]\((?<image>.*) "(?<title>.*)"\)/m
-  FRONTMATTER_REGEX = /---\n(?<front>.*)---\n/s
+  FRONTMATTER_REGEX = /---\n(?<frontmatter>.*)---\n/s
+
+  processCustomCover() {
+    const json = this.elements.map(this.normalizeElement);
+    let markdownContent = json2md(json);
+    this.cover = this.extractCoverImage(markdownContent);
+  }
 
   extractCoverImage(markdownContent) {
     if (this.COVER_IMAGE_REGEX.test(markdownContent)) {
@@ -590,8 +598,8 @@ class GoogleDocument {
 
   extractFrontmatter(markdownContent) {
     if (this.FRONTMATTER_REGEX.test(markdownContent)) {
-      const { groups: { front } } = this.FRONTMATTER_REGEX.exec(markdownContent)
-      return yamljs.parse(front);
+      const { groups: { frontmatter } } = this.FRONTMATTER_REGEX.exec(markdownContent)
+      return yamljs.parse(frontmatter);
     }
     return {};
   }
@@ -599,12 +607,10 @@ class GoogleDocument {
   toMarkdown() {
     const json = this.elements.map(this.normalizeElement);
     let markdownContent = json2md(json);
-    this.cover = this.extractCoverImage(markdownContent);
-    const properties = this.extractFrontmatter(markdownContent);
     const frontmatter = {
       ...this.properties,
       ...(this.cover ? {cover: this.cover} : {}),
-      ...properties,
+      ...this.extractFrontmatter(markdownContent),
     }
     markdownContent = markdownContent.replace(this.COVER_IMAGE_REGEX, '').replace(this.FRONTMATTER_REGEX, '');
     const markdownFrontmatter =
