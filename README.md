@@ -24,8 +24,8 @@ To generate google oauth variables, you can use script from `gatsby-source-googl
 npx gatsby-source-google-docs-token
 ```
 ## Features
-- save markdown locally (`MARKDOWN_PATH`)
-- save images locally (`IMAGES_PATH`)
+- save markdown locally
+- save images locally
 - first image as cover
 - frontmatter in Google Docs
 - jekyll filename convention
@@ -47,20 +47,19 @@ description: 'Some important description'
 ```
 
 ### Filename convention
-If you use jekyll naming convention in Google Drive (`2022-08-22 Hello world!`), it will be treated in jekyll way:
-
-Fields were date will be removed:
-```
-slug: /post/hello-world
-title: Hello world!
-breadcrumbs: 
-    - { name: post, slug: /post }
-    - { name: 'Hello world!', slug: /post/hello-world }
-```
+If you use jekyll naming convention in Google Drive (`2022-08-22 Hello world!`), it will be treated in jekyll's way:
 
 Fields where date will be kept:
 ```
 name: 2022-08-22 Hello world!
 path: /post/2022-08-22-hello-world
-filename: `./post/2022-08-22-hello-world.md
+```
+
+Fields were date will be removed:
+```
+title: Hello world!
+slug: /post/hello-world
+breadcrumbs: 
+    - { name: post, slug: /post }
+    - { name: 'Hello world!', slug: /post/hello-world }
 ```
