@@ -1,6 +1,6 @@
 # GD2MD
 
-This is a simple wrapper around [gatsby-source-google-docs](https://github.com/cedricdelpoux/gatsby-source-google-docs). It allows you to save Google Docs as Markdown files locally. It keeps Google Drive folders structure and download all images. Before running the script prepare `.env` file and run steps below. For more details checkout offical documentation of [gatsby-source-google-docs](https://github.com/cedricdelpoux/gatsby-source-google-docs).
+This is a simple wrapper around [gatsby-source-google-docs](https://github.com/cedricdelpoux/gatsby-source-google-docs). It allows you to export Google Drive to Markdown with keeping folders structure and downloading all images. Before running the script prepare `.env` file and run steps below. For more details checkout offical documentation of [gatsby-source-google-docs](https://github.com/cedricdelpoux/gatsby-source-google-docs).
 
 ```
 yarn install
