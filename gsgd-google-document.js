@@ -576,13 +576,37 @@ class GoogleDocument {
     return element
   }
 
+  // @jasiek start
+  COVER_IMAGE_REGEX = /^!\[(?<alt>.*)\]\((?<image>.*) "(?<title>.*)"\)/m
+  FRONTMATTER_REGEX = /---\n(?<front>.*)---\n/s
+
+  extractCoverImage(markdownContent) {
+    if (this.COVER_IMAGE_REGEX.test(markdownContent)) {
+      const { groups: { alt, image, title } } = this.COVER_IMAGE_REGEX.exec(markdownContent);
+      return { alt, image, title };
+    }
+    return null;
+  }
+
+  extractFrontmatter(markdownContent) {
+    if (this.FRONTMATTER_REGEX.test(markdownContent)) {
+      const { groups: { front } } = this.FRONTMATTER_REGEX.exec(markdownContent)
+      return yamljs.parse(front);
+    }
+    return {};
+  }
+
   toMarkdown() {
+    const json = this.elements.map(this.normalizeElement);
+    let markdownContent = json2md(json);
+    this.cover = this.extractCoverImage(markdownContent);
+    const properties = this.extractFrontmatter(markdownContent);
     const frontmatter = {
       ...this.properties,
       ...(this.cover ? {cover: this.cover} : {}),
+      ...properties,
     }
-    const json = this.elements.map(this.normalizeElement)
-    const markdownContent = json2md(json)
+    markdownContent = markdownContent.replace(this.COVER_IMAGE_REGEX, '').replace(this.FRONTMATTER_REGEX, '');
     const markdownFrontmatter =
       Object.keys(frontmatter).length > 0
         ? `---\n${yamljs.stringify(frontmatter)}---\n`
@@ -590,6 +614,7 @@ class GoogleDocument {
 
     return `${markdownFrontmatter}${markdownContent}`
   }
+  // @jasiek end
 }
 
 // Add extra converter for footnotes
